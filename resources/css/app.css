@@ -15,3 +15,6 @@
 
 /* add Flowbite Vue directory using @source directive */
 @source "../../node_modules/flowbite-vue";
+
+/* dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
