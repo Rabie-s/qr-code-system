@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,23 @@ use App\Http\Requests\UpdatePasswordRequest;
 
 class AuthController extends Controller
 {
-    
+
+    public function showRegistrationForm()
+    {
+        return Inertia::render('Auth/Register');
+    }
+
+
+    public function showLoginForm()
+    {
+        return Inertia::render('Auth/Login');
+    }
+
     public function registerUser(StoreUserRequest $request)
-    {   
+    {
         $validatedData = $request->validated();
         User::create($validatedData);
-       return redirect()->route('user.auth.showLoginForm');  
+        return redirect()->route('user.auth.showLoginForm');
     }
 
     public function loginUser(LoginUserRequest $request)
@@ -28,14 +40,13 @@ class AuthController extends Controller
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
 
-            if($request->user()->role === 'admin'){//if user has admin role redirect to admin panel
+            if ($request->user()->role === 'admin') { //if user has admin role redirect to admin panel
                 return redirect()->route('admin.index');
             }
 
             return redirect()->route('home');
         }
         return back()->with('message', ['message' => 'Incorrect email or password', 'type' => 'error']);
-
     }
 
     public function logoutUser(Request $request)
@@ -51,9 +62,9 @@ class AuthController extends Controller
 
     public function changePassword(UpdatePasswordRequest $request)
     {
-        
+
         $checkPassword = Hash::check($request->validated()['currentPassword'], $request->user()->password);
-        
+
         if ($checkPassword) {
             $request->user()->password = $request->newPassword;
             $request->user()->save();
