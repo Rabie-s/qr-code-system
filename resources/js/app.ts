@@ -6,7 +6,14 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 
+//app layout
 import DefaultLayout from './Layouts/DefaultLayout.vue';
+
+//font awesome icons
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import './icons'
+
+
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,6 +28,7 @@ createInertiaApp({
             page.default.layout = null
         } else {
             page.default.layout = page.default.layout || DefaultLayout
+
         }
         return page
 
@@ -32,6 +40,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+              .component("FontAwesomeIcon", FontAwesomeIcon)
             .mount(el);
     },
     progress: {

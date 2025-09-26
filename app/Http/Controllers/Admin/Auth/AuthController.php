@@ -36,7 +36,6 @@ class AuthController extends Controller
 
     public function loginUser(LoginUserRequest $request)
     {
-        dd($request->all());
 
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
