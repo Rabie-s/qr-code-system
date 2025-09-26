@@ -36,14 +36,11 @@ class AuthController extends Controller
 
     public function loginUser(LoginUserRequest $request)
     {
+        dd($request->all());
 
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
-
-            if ($request->user()->role === 'admin') { //if user has admin role redirect to admin panel
-                return redirect()->route('admin.index');
-            }
-
+            
             return redirect()->route('home');
         }
         return back()->with('message', ['message' => 'Incorrect email or password', 'type' => 'error']);

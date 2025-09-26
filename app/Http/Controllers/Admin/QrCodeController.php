@@ -22,7 +22,7 @@ class QrCodeController extends Controller
      */
     public function create()
     {
-        //
+        //Dashboard 
     }
 
     /**
@@ -30,7 +30,6 @@ class QrCodeController extends Controller
      */
     public function store(QrCodeStoreRequest $request)
     {
-        dd($request->validated());
         QrCode::create($request->validated());
     }
 
