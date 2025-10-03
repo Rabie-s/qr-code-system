@@ -22,10 +22,10 @@ class QrCodeStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'required',
+            'name'=>'required',
             'foreground'=>'required',
             'background'=>'required',
-           // 'image_path'=>'sometimes'
+            'image_path'=>'sometimes'
         ];
     }
 }

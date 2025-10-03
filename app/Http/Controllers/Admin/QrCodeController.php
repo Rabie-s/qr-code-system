@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QrCodeStoreRequest;
 use App\Models\QrCode;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class QrCodeController extends Controller
 {
@@ -22,7 +23,7 @@ class QrCodeController extends Controller
      */
     public function create()
     {
-        //Dashboard 
+        return Inertia::render('QrCode/Create');
     }
 
     /**
@@ -30,7 +31,13 @@ class QrCodeController extends Controller
      */
     public function store(QrCodeStoreRequest $request)
     {
-        QrCode::create($request->validated());
+        $authenticatedUser = auth()->user();
+        $validatedData = $request->validated();
+        $qrImage = $request->file('image_path')->store('QrCodeImages', 'public');
+        $qrImageName = basename($qrImage);
+        $validatedData['image_path'] = $qrImageName;//edit validated avatar 
+        $authenticatedUser->qrCodes()->create($validatedData);
+        dd('yes');
     }
 
     /**
@@ -47,7 +54,7 @@ class QrCodeController extends Controller
      */
     public function edit(string $id)
     {
-        
+
     }
 
     /**

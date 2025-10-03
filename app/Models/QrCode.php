@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class QrCode extends Model
 {
-    protected $fillable = ['title', 'foreground', 'background', 'image_path'];
+    protected $fillable = ['name', 'foreground', 'background', 'image_path'];
 
     public function user(): BelongsTo
     {
