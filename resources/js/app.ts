@@ -1,6 +1,6 @@
 import '../css/app.css';
 
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, Link } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
@@ -40,7 +40,9 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-              .component("FontAwesomeIcon", FontAwesomeIcon)
+            .component("FontAwesomeIcon", FontAwesomeIcon)
+            .component("Link", Link) 
+            .component("router-link", Link)
             .mount(el);
     },
     progress: {

@@ -10,6 +10,10 @@ class QrCode extends Model
 {
     protected $fillable = ['name', 'foreground', 'background', 'image_path'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d/m/Y'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

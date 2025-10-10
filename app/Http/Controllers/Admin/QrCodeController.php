@@ -15,7 +15,9 @@ class QrCodeController extends Controller
      */
     public function index()
     {
-        //
+        $qrCodes = QrCode::with('user:id,name')
+            ->select('id', 'name', 'user_id', 'created_at')->latest()->paginate(10);
+        return Inertia::render('QrCode/Index', ['qrCodes' => $qrCodes]);
     }
 
     /**
@@ -37,7 +39,7 @@ class QrCodeController extends Controller
         $qrImageName = basename($qrImage);
         $validatedData['image_path'] = $qrImageName;//edit validated avatar 
         $authenticatedUser->qrCodes()->create($validatedData);
-        dd('yes');
+        return redirect()->back()->with('message', 'QR-Code created successfully.');
     }
 
     /**
@@ -54,6 +56,8 @@ class QrCodeController extends Controller
      */
     public function edit(string $id)
     {
+        $qrCode = QrCode::findOrFail($id);
+        return Inertia::render('QrCode/Edit',['qrCode'=>$qrCode]);
 
     }
 
@@ -62,7 +66,7 @@ class QrCodeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

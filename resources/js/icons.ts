@@ -1,3 +1,3 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPhone,faHouse,faGauge } from "@fortawesome/free-solid-svg-icons";
-library.add(faPhone,faHouse,faGauge);
+import { faPhone,faHouse,faGauge,faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+library.add(faPhone,faHouse,faGauge,faRightFromBracket);

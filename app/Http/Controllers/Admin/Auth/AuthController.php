@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('home')->with('message', ['message' => 'good bay', 'type' => 'success']);
+        return redirect()->route('user.auth.showLoginForm')->with('message', ['message' => 'good bay', 'type' => 'success']);
     }
 
     public function changePassword(UpdatePasswordRequest $request)

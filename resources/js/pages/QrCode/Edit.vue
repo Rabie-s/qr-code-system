@@ -4,7 +4,7 @@
         <form method="post" enctype="multipart/form-data" @submit.prevent="submit">
             <fwb-card href="#" class="w-sm p-2">
 
-                <fwb-heading class="my-2" tag="h4">New QrCode</fwb-heading>
+                <fwb-heading class="my-2" tag="h4">Update QrCode</fwb-heading>
 
                 <div class="m-2">
                     <fwb-input type="text" v-model="form.name" placeholder="enter qr code title" label="Title" />
@@ -33,7 +33,7 @@
 
 
                 <div class="m-4">
-                    <fwb-button type="submit" color="default">Save</fwb-button>
+                    <fwb-button type="submit" color="default">Update</fwb-button>
                 </div>
             </fwb-card>
         </form>
@@ -41,15 +41,17 @@
     </div>
 </template>
 <script setup>
-defineProps({ errors: Object })
-import { useForm } from '@inertiajs/vue3'
+const props = defineProps({ qrCode:Object,errors: Object })
+import { router, useForm } from '@inertiajs/vue3'
 import { FwbCard, FwbInput, FwbButton, FwbHeading, FwbFileInput } from 'flowbite-vue'
 import { ref } from 'vue';
 
+const qrCode = props.qrCode
+
 const form = useForm({
-    name: '',
-    foreground: '#000000',
-    background: '#ffffff',
+    name: qrCode.name,
+    foreground: qrCode.foreground,
+    background: qrCode.background,
     image_path: null,
 })
 const inputImage = ref(null);
@@ -66,8 +68,13 @@ function resetFileInput() {
 }
 
 function submit() {
-    form.post(route('qr-code.store'), {
+    router.post(route('qr-code.update',qrCode.id), {
+        _method: 'put',
         forceFormData: true,
+        name:form.name,
+        foreground:form.foreground,
+        background:form.background,
+        image_path:form.image_path,
         onSuccess:()=>{
             form.reset()
             resetFileInput()
