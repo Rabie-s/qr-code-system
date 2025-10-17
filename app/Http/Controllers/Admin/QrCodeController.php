@@ -7,7 +7,7 @@ use App\Http\Requests\QrCodeStoreRequest;
 use App\Models\QrCode;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Illuminate\Support\Facades\File;
 class QrCodeController extends Controller
 {
     /**
@@ -57,16 +57,44 @@ class QrCodeController extends Controller
     public function edit(string $id)
     {
         $qrCode = QrCode::findOrFail($id);
-        return Inertia::render('QrCode/Edit',['qrCode'=>$qrCode]);
+        return Inertia::render('QrCode/Edit', ['qrCode' => $qrCode]);
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(QrCodeStoreRequest $request, string $id)
     {
-        dd($request->all());
+
+        $validatedData = $request->validated();
+        //dd($validatedData);
+
+
+        $qrCode = QrCode::findOrFail($id);
+        if ($request->hasFile('image_path')) {
+
+            // احذف الصورة القديمة إن وُجدت
+            if (File::exists(public_path('storage/QrCodeImages/' . $qrCode->image_path))) {
+                File::delete(public_path('storage/QrCodeImages/' . $qrCode->image_path));
+            }
+
+            // خزّن الصورة الجديدة
+            $qrImage = $request->file('image_path')->store('QrCodeImages', 'public');
+            $qrImageName = basename($qrImage);
+            $validatedData['image_path'] = $qrImageName;
+        }else{
+            unset($validatedData['image_path']);
+        }
+
+        $qrCode->update($validatedData);
+
+        //$qrCode->update($request->all());
+        //dd($request->file('image_path'));
+
+
+
+        //dd($request->all());
     }
 
     /**

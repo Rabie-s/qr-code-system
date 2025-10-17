@@ -18,7 +18,7 @@
                 <fwb-table-cell>{{ qrCode.created_at }}</fwb-table-cell>
                 <fwb-table-cell>
                     <div class=" space-x-2">
-                        <fwb-a href="#">
+                        <fwb-a :href="route('qr-code.edit',qrCode.id)">
                             Edit
                         </fwb-a>
                         <fwb-a href="#">
